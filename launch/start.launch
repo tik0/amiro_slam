@@ -1,0 +1,104 @@
+<launch>
+
+  <!-- Use /clock topic in case of bag replay or simulator -->
+  <arg name="use_sim_time" default="true"/>
+  <param name="use_sim_time" value="$(arg use_sim_time)"/>
+
+  <!-- Simulator -->
+  <arg name="use_gazebo" default="true"/>
+  <group if="$(arg use_sim_time)">
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="world_name" value="$(find amiro_gazebo)/worlds/amiro.world"/>
+      <arg name="debug" value="false" />
+      <arg name="gui" value="true" />
+      <arg name="paused" value="false"/>
+      <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+      <arg name="headless" value="false"/>
+      <arg name="verbose" value="false"/>
+    </include>
+  </group>
+
+  <!-- Choose the AMiRo steering -->
+  <arg name="xbox_controller" default="0"/>
+  <arg name="keyboard_controller" default="1"/>
+
+  <!-- Choose a LiDAR -->
+  <arg name="laserscan" default="1"/>
+  <arg name="laserscan_sick" default="1"/>
+  <arg name="laserscan_hokuyo" default="0"/>
+
+  <arg name="twb" default="0"/> <!-- Bridge RSB based TWB localization messages (depricated) -->
+  <arg name="robot_localization" default="0"/> <!-- Use EKF to fuse TWB and robot's odometry -->
+  <arg name="dynamic_tf_with_odom" default="1"/>
+  <arg name="dynamic_tf_with_ekf" default="0"/>
+  <arg name="static_tf_map_odom" default="0"/>
+
+  <!-- TWB setup, if a real robot is used -->
+  <arg name="marker_id" default="1"/>
+
+  <!-- AMiRo setup, if a real robot is used -->
+  <arg name="amiro_nr" default="1"/>
+
+  <!-- Generate the clock scope from a any rsb scope on /amiro*, if the simulator is not used and sim_time is on-->
+  <group if="$(eval arg('use_sim_time') == true and arg('use_gazebo') == false)">
+    <node pkg="rsb_to_ros_bridge" type="event_to_ros_clock" name="event_to_ros_clock" output="screen">
+      <param name="use_rsb_send_time" value="1"/>
+      <param name="scope_rsb" value="/amiro$(arg amiro_nr)/"/>
+    </node>
+  </group>
+  
+  <!-- Teleoperation -->
+  <include file="$(find amiro_slam)/launch/xbox360_teleop.launch" if="$(arg xbox_controller)">
+    <arg name="cmd_vel_topic" value="/amiro$(arg amiro_nr)/cmd_vel"/>
+  </include>
+  <include file="$(find amiro_slam)/launch/keyboard_teleop.launch" if="$(arg keyboard_controller)">
+    <arg name="cmd_vel_topic" value="/amiro$(arg amiro_nr)/cmd_vel"/>
+  </include>
+
+  <include file="$(find amiro_slam)/launch/slam.launch">
+    <arg name="amiroNr" value="$(arg amiro_nr)"/>
+    <arg name="markerId" value="$(arg marker_id)"/>
+    <arg name="use_gazebo" value="$(arg use_gazebo)"/>
+    
+
+    <arg name="laserscan" value="$(arg laserscan)"/>
+    <arg name="laserscan_sick" value="$(arg laserscan_sick)"/>
+    <arg name="laserscan_hokuyo" value="$(arg laserscan_hokuyo)"/>
+
+    <arg name="twb" value="$(arg twb)"/>
+    <arg name="robot_localization" value="$(arg robot_localization)"/>
+
+    <arg name="rostimenow" value="$(arg use_sim_time)"/>
+
+    <arg name="dynamic_tf_with_odom" value="$(arg dynamic_tf_with_odom)"/>
+    <arg name="dynamic_tf_with_ekf" value="$(arg dynamic_tf_with_ekf)"/>
+    <arg name="static_tf_map_odom" value="$(arg static_tf_map_odom)"/>
+
+    <!-- Teleop Steering -->
+    <arg name="teleop" value="$(eval arg('xbox_controller') or arg('keyboard_controller'))"/>
+
+    <!-- Autonomous navigation -->
+    <arg name="nav_stack" value="0"/>
+    <arg name="no_static_map" value="0"/>
+    <arg name="frontier_exploration" value="0"/>
+
+    <!-- SALM alg. -->
+    <arg name="hector_mapping" value="1"/>
+    <arg name="octomap" value="0"/>
+    <arg name="gmapping" value="0"/>
+
+  </include>
+
+  <!--AMiRo CAD model-->
+  <include file="$(find amiro_description)/launch/amiro.launch" clear_params="true" ns="amiro$(arg amiro_nr)">
+    <arg name="robot_name" value="amiro$(arg amiro_nr)" />
+    <arg name="use_gazebo" value="$(arg use_gazebo)" />
+    <arg name="robot_position" value="-x 0.0 -y 0.0 -z 0.01" />
+    <arg name="update_rate" value="50.0" />
+    <arg name="robot_model" value="amiro_hokuyo.xacro" />
+  </include>
+  
+  <!-- Viz -->  
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find amiro_slam)/rviz/config.rviz"/>
+
+</launch>
