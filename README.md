@@ -7,6 +7,8 @@ Tested with Ubuntu 16.04 and ROS Kinetic.
   * In the TeleWorkBench: `roscp amiro_slam rsb.conf /tmp/rsb.conf && roslaunch amiro_slam start.launch use_sim_time:=false use_gazebo:=false`
   * From a bag file: `roslaunch amiro_slam start.launch use_gazebo:=false`
 
+![AMiRo in TWB performing SLAM](/images/TWB_SLAM.jpg)
+
 ## Necessary packages
 
 * [amiro_robot](https://github.com/tik0/amiro_robot)
