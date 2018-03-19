@@ -63,6 +63,7 @@
       <arg name="robot_position" value="-x 0.0 -y 0.0 -z 0.01" />
       <arg name="update_rate" value="50.0" />
       <arg name="robot_model" value="amiro_hokuyo.xacro" />
+      <arg name="use_odom_to_world_tf" value="false" />
     </include>
   </group>
   
