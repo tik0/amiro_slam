@@ -4,7 +4,7 @@ Tested with Ubuntu 16.04 and ROS Kinetic.
 
 * SLAM can be performed in three different setups
   * Simulation: `roslaunch amiro_slam start.launch`
-  * In the TeleWorkBench: `roscp amiro_slam rsb.conf /tmp/rsb.conf && roslaunch amiro_slam start.launch use_sim_time:=false use_gazebo:=false`
+  * In the TeleWorkBench: `roscp amiro_slam rsb.conf ~/rsb.conf && roslaunch amiro_slam start.launch use_sim_time:=false use_gazebo:=false`
   * From a bag file: `roslaunch amiro_slam start.launch use_gazebo:=false`
 
 ![AMiRo in TWB performing SLAM](/images/TWB_SLAM.jpg)

@@ -5,6 +5,8 @@
    -->
   <!--  smooths inputs from cmd_vel_mux/input/teleop_raw to cmd_vel_mux/input/teleop -->
   <include file="$(find turtlebot_teleop)/launch/includes/velocity_smoother.launch.xml"/>
+  <arg name="cmd_vel_topic" default="/amiro1/cmd_vel"/>
+
 
   <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">
     <param name="scale_angular" value="1"/>
@@ -12,7 +14,7 @@
     <param name="axis_deadman" value="4"/>
     <param name="axis_linear" value="1"/>
     <param name="axis_angular" value="0"/>
-    <remap from="turtlebot_teleop_joystick/cmd_vel" to="teleop_velocity_smoother/raw_cmd_vel"/>
+    <remap from="turtlebot_teleop_joystick/cmd_vel" to="$(arg cmd_vel_topic)"/>
   </node>
 
   <node pkg="joy" type="joy_node" name="joystick"/>

@@ -1,41 +1,39 @@
 <launch>
-  <arg name="amiroNr" default="1"/>
+  <arg name="ns" default=""/>
   <arg name="base_global_planner" default="navfn/NavfnROS"/>
   <!-- <arg name="base_local_planner" default="dwa_local_planner/DWAPlannerROS"/> -->
   <arg name="base_local_planner" default="base_local_planner/TrajectoryPlannerROS"/>
   <arg name="no_static_map" default="0"/>
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
-    <remap from="/cmd_vel" to="/amiro$(arg amiroNr)/cmd_vel"/>
 
     <param name="controller_frequency" value="15.0"/>
     <param name="base_global_planner" value="$(arg base_global_planner)"/>
     <param name="base_local_planner" value="$(arg base_local_planner)"/>
-    <rosparam file="$(find amiro_slam)/planner.yaml" command="load"/>
+    <rosparam file="$(find amiro_slam)/config/planner.yaml" command="load"/>
 
     <!-- observation sources located in costmap_common.yaml -->
-    <rosparam file="$(find amiro_slam)/costmap_common_params.yaml" command="load" ns="global_costmap"/>
-    <rosparam ns="global_costmap" param="robot_base_frame" subst_value="True">amiro$(arg amiroNr)/base_link</rosparam>
-    <rosparam ns="global_costmap" param="obstacles_laser/laser" subst_value="True">{data_type: LaserScan, topic: /amiro$(arg amiroNr)/laserscan, marking: true, clearing: true, inf_is_valid: true}</rosparam>
-    <rosparam file="$(find amiro_slam)/costmap_common_params.yaml" command="load" ns="local_costmap"/>
-    <rosparam ns="local_costmap" param="robot_base_frame" subst_value="True">amiro$(arg amiroNr)/base_link</rosparam>
-    <rosparam ns="local_costmap" param="obstacles_laser/laser" subst_value="True">{data_type: LaserScan, topic: /amiro$(arg amiroNr)/laserscan, marking: true, clearing: true, inf_is_valid: true}</rosparam>
+    <rosparam file="$(find amiro_slam)/config/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam ns="global_costmap" param="robot_base_frame" subst_value="True">$(arg ns)/base_link</rosparam>
+    <rosparam ns="global_costmap" param="obstacles_laser/laser" subst_value="True">{data_type: LaserScan, topic: laser, marking: true, clearing: true, inf_is_valid: true}</rosparam>
+    <rosparam file="$(find amiro_slam)/config/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam ns="local_costmap" param="robot_base_frame" subst_value="True">$(arg ns)/base_link</rosparam>
+    <rosparam ns="local_costmap" param="obstacles_laser/laser" subst_value="True">{data_type: LaserScan, topic: laser, marking: true, clearing: true, inf_is_valid: true}</rosparam>
 
     <!-- local costmap, needs size -->
-    <rosparam file="$(find amiro_slam)/local_costmap_params.yaml" command="load" ns="local_costmap"/>
-    <rosparam ns="local_costmap" param="global_frame" subst_value="True">amiro$(arg amiroNr)/odom</rosparam>
+    <rosparam file="$(find amiro_slam)/config/local_costmap_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam ns="local_costmap" param="global_frame" subst_value="True">$(arg ns)/odom</rosparam>
     <param name="local_costmap/width" value="10.0"/>
     <param name="local_costmap/height" value="10.0"/>
 
 
     <!-- static global costmap, static map provides size -->
-    <rosparam file="$(find amiro_slam)/global_costmap_params.yaml" command="load" ns="global_costmap" unless="$(arg no_static_map)"/>
+    <rosparam file="$(find amiro_slam)/config/global_costmap_params.yaml" command="load" ns="global_costmap" unless="$(arg no_static_map)"/>
     <!-- global costmap with laser, for odom_navigation_demo -->
-    <rosparam file="$(find amiro_slam)/costmap_global_laser.yaml" command="load" ns="global_costmap" if="$(arg no_static_map)"/>
-    <rosparam if="$(arg no_static_map)" ns="global_costmap" param="global_frame" subst_value="True">amiro$(arg amiroNr)/odom</rosparam>
+    <rosparam file="$(find amiro_slam)/config/costmap_global_laser.yaml" command="load" ns="global_costmap" if="$(arg no_static_map)"/>
+    <rosparam if="$(arg no_static_map)" ns="global_costmap" param="global_frame" subst_value="True">$(arg ns)/odom</rosparam>
     <param name="global_costmap/width" value="100.0" if="$(arg no_static_map)"/>
     <param name="global_costmap/height" value="100.0" if="$(arg no_static_map)"/>
-
   </node>
 
 </launch>

@@ -1,0 +1,49 @@
+<launch>
+
+  <arg name="xbox_controller" default="0"/>
+  <arg name="keyboard_controller" default="1"/>
+  <arg name="frontier_exploration" default="0"/>
+  <arg name="nav_stack_no_static_map" default="0"/>
+  <arg name="nav_stack" default="0"/>
+  <arg name="ns" default=""/>
+
+  <!-- ################################################# -->
+  <!-- TELEOP -->
+  <!-- ################################################# -->
+ 
+  <include file="$(find amiro_slam)/launch/xbox360_teleop.launch" if="$(arg xbox_controller)">
+    <arg name="cmd_vel_topic" value="/$(arg ns)/cmd_vel"/>
+  </include>
+  <include file="$(find amiro_slam)/launch/keyboard_teleop.launch" if="$(arg keyboard_controller)">
+    <arg name="cmd_vel_topic" value="/$(arg ns)/cmd_vel"/>
+  </include>
+
+  <!-- ################################################# -->
+  <!-- FRONTIER EXPLORATION -->
+  <!-- ################################################# -->
+
+  <group if="$(arg frontier_exploration)">
+    <node pkg="frontier_exploration" type="explore_client" name="explore_client" output="screen"/>
+    <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen">
+      <param name="frequency" value="0.0"/>
+      <!-- Should be less than sensor range -->
+      <param name="goal_aliasing" value="1.5"/>
+      <rosparam file="$(find amiro_2dnav)/costmap_common_params.yaml" command="load" ns="explore_costmap"/>
+      <rosparam ns="explore_costmap" param="robot_base_frame" subst_value="True">base_link</rosparam>
+      <rosparam ns="explore_costmap" param="obstacles_laser/laser" subst_value="True">{data_type: LaserScan, topic: laser, marking: true, clearing: true, inf_is_valid: true}</rosparam>
+      <rosparam file="$(find amiro_2dnav)/costmap_exploration.yaml" command="load" ns="explore_costmap"/>
+    </node>
+  </group>
+
+  <!-- ################################################# -->
+  <!-- ROS NAVIGATION STACK -->
+  <!-- ################################################# -->
+
+  <group if="$(arg nav_stack)">
+    <include file="$(find amiro_slam)/launch/move_base.launch">
+      <arg name="ns" value="/$(arg ns)"/>
+      <arg name="no_static_map" value="$(arg nav_stack_no_static_map)"/>
+    </include>
+  </group>
+
+</launch>

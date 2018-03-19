@@ -1,6 +1,6 @@
 // ============================================================================
 // Name        : dynamic_tf_with_odom.cpp
-// Author      : Daniel Rudolph <drudolph@techfak.uni-bielefeld.de>
+// Author      : Daniel Rudolph <drudolph@techfak.uni-bielefeld.de>, Timo Korthals <tkorthals@techfak.uni-bielefeld.de>
 // Description : Recieve ros::nav_mags::Odometry and dynamic tf then with given frame_id
 // ============================================================================
 
@@ -27,7 +27,7 @@ void process(const nav_msgs::Odometry::ConstPtr& msg) {
   transform.setOrigin(tf::Vector3(msg->pose.pose.position.x, msg->pose.pose.position.y, msg->pose.pose.position.z) );
   transform.setRotation(tf::Quaternion(msg->pose.pose.orientation.x, msg->pose.pose.orientation.y, msg->pose.pose.orientation.z, msg->pose.pose.orientation.w));
 
-  br.sendTransform(tf::StampedTransform(transform, rostimenow?ros::Time::now():msg->header.stamp , parentFrame, childFrame));
+  br.sendTransform(tf::StampedTransform(transform, rostimenow?ros::Time::now():msg->header.stamp , parentFrame.empty()?msg->child_frame_id:parentFrame, childFrame.empty()?msg->header.frame_id:childFrame));
 }
 
 int main(int argc, char * argv[]) {
@@ -38,8 +38,8 @@ int main(int argc, char * argv[]) {
   ros::NodeHandle node("~");
 
   node.param<string>("ros_listener_odom_topic", rosListenerTopic, "/topic");
-  node.param<string>("parent_frame", parentFrame, "/parent");
-  node.param<string>("child_frame", childFrame, "/child");
+  node.param<string>("parent_frame", parentFrame, "");
+  node.param<string>("child_frame", childFrame, "");
   node.param<bool>("rostimenow", rostimenow, false);
 
   ROS_INFO("ros_listener_topic: %s", rosListenerTopic.c_str());

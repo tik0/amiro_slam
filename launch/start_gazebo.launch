@@ -1,0 +1,31 @@
+<launch>
+
+  <!-- Robot namespace -->
+  <arg name="ns" default="amiro1"/>
+  
+  <!-- Simulator -->
+  <arg name="use_sim_time" default="true"/>
+  <param name="use_sim_time" value="$(arg use_sim_time)"/>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find amiro_gazebo)/worlds/amiro.world"/>
+    <arg name="debug" value="false" />
+    <arg name="gui" value="true" />
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="false"/>
+    <arg name="verbose" value="false"/>
+  </include>
+
+  <!--AMiRo CAD model-->
+  <include file="$(find amiro_description)/launch/amiro.launch" clear_params="true" ns="$(arg ns)">
+    <arg name="robot_name" value="$(arg ns)" />
+    <arg name="use_gazebo" value="true" />
+    <arg name="robot_position" value="-x 0.0 -y 0.0 -z 0.01" />
+    <arg name="update_rate" value="50.0" />
+    <arg name="robot_model" value="amiro_hokuyo.xacro" />
+  </include>
+
+  <!-- Mapping -->
+  <node pkg="amiro_slam" type="timed_roslaunch.sh" args="10 amiro_slam start.launch use_gazebo:=true nav_stack:=true ns:=$(arg ns)" name="timed_roslaunch" output="screen" />
+
+</launch>
