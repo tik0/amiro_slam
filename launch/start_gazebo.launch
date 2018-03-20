@@ -30,6 +30,6 @@ have erronous side effects on slow PCs when the simulator is not yet ready -->
   </include>
 
   <!-- Mapping -->
-  <node pkg="amiro_slam" type="timed_roslaunch.sh" args="10 amiro_slam configure.launch use_gazebo:=true nav_stack:=true ns:=$(arg ns)" name="timed_roslaunch" output="screen" />
+  <node pkg="amiro_slam" type="timed_roslaunch.sh" args="10 amiro_slam configure.launch use_gazebo:=true keyboard_controller:=true nav_stack:=false ns:=$(arg ns)" name="timed_roslaunch" output="screen" />
 
 </launch>

@@ -8,6 +8,11 @@ Tested with Ubuntu 16.04 and ROS Kinetic.
   * Simulation: `roslaunch amiro_slam start_gazebo.launch`
   * With the real AMiRo (with or without TeleWorkBench): `roscp amiro_slam rsb.conf ~/rsb.conf && roslaunch amiro_slam start_amiro.launch`
   * From a rsbag (not ROS bag) file: `roslaunch amiro_slam start_rsbag.launch`
+* Steer the robot
+  * [turtlebot_teleop_key](http://wiki.ros.org/turtlebot_teleop?distro=kinetic#Keyboard_Teleop) via `keyboard_controller` (standard): Use `u i o; j k l; m , .`
+  * [turtlebot_teleop_joy](http://wiki.ros.org/turtlebot_teleop?distro=kinetic#PS3.2BAC8-XBox_Teleop) via `xbox_controller` : Use your Xbox controller
+  * [move_base](http://wiki.ros.org/move_base) via `nav_stack`: Set 2dNavGoals in rviz
+  * [frontier_exploration](http://wiki.ros.org/frontier_exploration) via `nav_stack` and `frontier_exploration`: Searches its own goal locations
 * Hints
   * The robot's namespace is declared in the `start_*.launch` files. It controls the scopes/topics in simulation as well as in real life.
   * If you changed the namespace, the rviz configuration needs to be altered as well. E.g. if the current namespace is `amiro4` and you want to change all namespaces in rviz to `amiro9`, do: `$ sed 's#amiro4#amiro9#g' -i rviz/config.rviz`
