@@ -1,7 +1,10 @@
 <launch>
+<!-- This script launches the Gazebo simulator and the AMiRo with it's tf-tree
+explicitly first. The mapping etc. runs 10 sec. delayed, beacuse some alg.
+have erronous side effects on slow PCs when the simulator is not yet ready -->
 
   <!-- Robot namespace -->
-  <arg name="ns" default="amiro1"/>
+  <arg name="ns" default="amiro4"/>
   
   <!-- Simulator -->
   <arg name="use_sim_time" default="true"/>
@@ -16,7 +19,7 @@
     <arg name="verbose" value="false"/>
   </include>
 
-  <!--AMiRo CAD model-->
+  <!-- AMiRo CAD model -->
   <include file="$(find amiro_description)/launch/amiro.launch" clear_params="true" ns="$(arg ns)">
     <arg name="robot_name" value="$(arg ns)" />
     <arg name="use_gazebo" value="true" />

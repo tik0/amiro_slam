@@ -1,5 +1,5 @@
 <launch>
-  <arg name="cmd_vel_topic" default="/amiro1/cmd_vel"/>
+  <arg name="cmd_vel_topic" default="cmd_vel"/>
   <!-- turtlebot_teleop_key already has its own built in velocity smoother -->
   <node pkg="turtlebot_teleop" type="turtlebot_teleop_key" name="turtlebot_teleop_keyboard" output="screen">
     <param name="scale_linear" value="0.5" type="double"/>

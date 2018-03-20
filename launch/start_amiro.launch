@@ -1,0 +1,19 @@
+<launch>
+
+  <!-- Robot namespace -->
+  <arg name="ns" default="amiro4"/>
+  
+  <!-- We do not simulate -->
+  <param name="use_sim_time" value="false"/>
+
+  <!-- Mapping -->
+  <include file="$(find amiro_slam)/launch/configure.launch" clear_params="false">
+    <arg name="ns" value="$(arg ns)" />
+    <arg name="use_gazebo" value="false" />
+    <arg name="keyboard_controller" value="true" />
+    <arg name="nav_stack" value="false" />
+    <arg name="robot_localization" value="true" />
+    <arg name="rostimenow" value="false" />
+  </include>
+
+</launch>

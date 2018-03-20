@@ -5,14 +5,15 @@
   <arg name="octomap" default="0"/>
   <arg name="gmapping" default="0"/>
 
-  <!-- Generate /clock topic from rsb messages in case of rsbag replay -->
-  <arg name="use_rsb_time" default="false"/>
+  <!-- Bridge configuration -->
+  <arg name="use_rsb_time" default="false"/> <!-- Generate /clock topic from rsb messages in case of rsbag replay -->
+  <arg name="rostimenow" default="false"/> <!-- If true, all ROS generated messages are stamped with the system time instead of the RSB timestamp -->
 
   <!-- Choose the AMiRo steering -->
   <arg name="xbox_controller" default="0"/>
   <arg name="keyboard_controller" default="0"/>
   <arg name="nav_stack" default="1"/>
-  <arg name="frontier_exploration" default="0"/>
+  <arg name="frontier_exploration" default="0"/> <!-- Works only with nav_stack -->
 
   <!-- Choose a LiDAR -->
   <arg name="laserscan_sick" default="1"/>
@@ -25,7 +26,10 @@
   <arg name="marker_id" default="1"/>
 
   <!-- AMiRo robot name and namespace -->
-  <arg name="ns" default="amiro1"/>
+  <arg name="ns" default="robot"/>
+
+  <!-- AMiRo runs in Gazebo -->
+  <arg name="use_gazebo" default="false"/>
   
   <!-- Navigation -->
   <include file="$(find amiro_slam)/launch/navigation.launch" ns="$(arg ns)">
@@ -42,6 +46,7 @@
     <arg name="laserscan_hokuyo" value="$(arg laserscan_hokuyo)"/>
     <arg name="use_rsb_time" value="$(arg use_rsb_time)"/>
     <arg name="ns" value="$(arg ns)"/>
+    <arg name="rostimenow" value="$(arg rostimenow)"/>
   </include>
 
   <!-- Mapping -->

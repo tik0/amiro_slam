@@ -5,7 +5,7 @@
    -->
   <!--  smooths inputs from cmd_vel_mux/input/teleop_raw to cmd_vel_mux/input/teleop -->
   <include file="$(find turtlebot_teleop)/launch/includes/velocity_smoother.launch.xml"/>
-  <arg name="cmd_vel_topic" default="/amiro1/cmd_vel"/>
+  <arg name="cmd_vel_topic" default="cmd_vel"/>
 
 
   <node pkg="turtlebot_teleop" type="turtlebot_teleop_joy" name="turtlebot_teleop_joystick">

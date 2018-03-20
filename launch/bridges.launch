@@ -13,33 +13,36 @@
 
   <!-- Generate the clock scope from any rsb scope on /amiro*, if the simulator is not used and sim_time is on-->
   <group if="$(arg use_rsb_time)">
-    <node pkg="rsb_to_ros_bridge" type="event_to_ros_clock" name="event_to_ros_clock" output="screen">
+    <node pkg="rsb_to_ros_bridge" type="event_to_ros_clock" name="event_to_ros_clock" respawn="true" output="screen" clear_params="true">
       <param name="use_rsb_send_time" value="1"/>
       <param name="scope_rsb" value="/$(arg ns)/"/>
     </node>
   </group>
 
   <group if="$(arg camera)">
-    <node name="rst_vision_image_to_ros_sensormsgs_image" pkg="rsb_to_ros_bridge" type="rst_vision_image_to_ros_sensormsgs_image" respawn="false" output="screen" cwd="ROS_HOME" clear_params="true">
+    <node name="rst_vision_image_to_ros_sensormsgs_image" pkg="rsb_to_ros_bridge" type="rst_vision_image_to_ros_sensormsgs_image" respawn="true" output="screen" cwd="ROS_HOME" clear_params="true">
       <param name="rsb_listener_scope" value="/$(arg ns)/image/depth"/>
-      <param name="ros_publish_image_topic" value="image"/>
+      <param name="ros_publish_image_topic" value="/$(arg ns)/image"/>
       <param name="ros_publish_Compressed_image_topic" value="image/compressed"/>
       <param name="image_compression_format" value="jpg"/>
       <param name="rostimenow" value="$(arg rostimenow)"/>
+      <param name="frame_id" value="$(arg ns)/camera"/>
     </node>
   </group>
 
-  <node name="rst_pose_to_ros_navmsgs_odometry" pkg="rsb_to_ros_bridge" type="rst_pose_to_ros_navmsgs_odometry" respawn="false" output="screen" cwd="ROS_HOME" clear_params="true">
+  <node name="rst_pose_to_ros_navmsgs_odometry" pkg="rsb_to_ros_bridge" type="rst_pose_to_ros_navmsgs_odometry" respawn="true" output="screen" cwd="ROS_HOME" clear_params="true">
     <param name="rsb_listener_scope" value="/$(arg ns)/pose"/>
-    <param name="ros_publish_topic" value="odom"/>
+    <param name="ros_publish_topic" value="/$(arg ns)/odom"/>
     <param name="rostimenow" value="$(arg rostimenow)"/>
+    <param name="frame_id" value="$(arg ns)/odom"/>
+    <param name="child_frame_id" value="$(arg ns)/base_link"/>
   </node>
 
   <group if="$(eval arg('laserscan_sick') == true or arg('laserscan_hokuyo') == true)">
-    <node name="rst_vision_laserscan_to_ros_sensormsgs_Laserscan" pkg="rsb_to_ros_bridge" type="rst_vision_laserscan_to_ros_sensormsgs_Laserscan" respawn="false" output="screen" cwd="ROS_HOME" clear_params="true">
-      <param name="rsb_listener_scope" value="/$(arg ns)/laser"/>
-      <param name="ros_publish_topic" value="laser"/>
-      <param name="frame_id" value="/$(arg ns)/laser"/>
+    <node name="rst_vision_laserscan_to_ros_sensormsgs_Laserscan" pkg="rsb_to_ros_bridge" type="rst_vision_laserscan_to_ros_sensormsgs_Laserscan" respawn="true" output="screen" cwd="ROS_HOME" clear_params="true">
+      <param name="rsb_listener_scope" value="/$(arg ns)/laserscan"/>
+      <param name="ros_publish_topic" value="/$(arg ns)/laser"/>
+      <param name="frame_id" value="$(arg ns)/laser"/>
       <param name="offset_scan" value="-2.35619" if="$(arg laserscan_sick)"/>
       <param name="offset_scan" value="-2.0944" if="$(arg laserscan_hokuyo)"/>
       <param name="rostimenow" value="$(arg rostimenow)"/>
@@ -50,18 +53,9 @@
   <!-- ros_to_rsb_bridge -->
   <!-- ################################################# -->
 
-  <group if="$(arg teleop)">
-    <node name="vel_cmd_bridge" pkg="ros_to_rsb_bridge" type="ros_geometry_msgs_twist_to_rst_value_array" respawn="false" output="screen" cwd="ROS_HOME">
-      <param name="ros_listener_topic" value="cmd_vel"/>
-      <param name="rsb_publish_scope" value="/$(arg ns)/motor/5"/>
-    </node>
-  </group>
-
-  <group if="$(arg nav_stack)">
-    <node name="Navstack_controll_bridge" pkg="ros_to_rsb_bridge" type="ros_geometry_msgs_twist_to_rst_value_array" respawn="false" output="screen" cwd="ROS_HOME" clear_params="true">
-      <param name="ros_listener_topic" value="cmd_vel"/>
-      <param name="rsb_publish_scope" value="/$(arg ns)/motor/10"/>
-    </node>
-  </group>
+  <node name="vel_cmd_bridge" pkg="ros_to_rsb_bridge" type="ros_geometry_msgs_twist_to_rst_value_array" respawn="true" output="screen" cwd="ROS_HOME">
+    <param name="ros_listener_topic" value="/$(arg ns)/cmd_vel"/>
+    <param name="rsb_publish_scope" value="/$(arg ns)/motor/5"/>
+  </node>
 
 </launch>

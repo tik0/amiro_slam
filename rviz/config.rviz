@@ -73,7 +73,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.00999999978
       Style: Flat Squares
-      Topic: /amiro1/laser
+      Topic: /amiro4/laser
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: false
@@ -109,7 +109,7 @@ Visualization Manager:
         Shaft Length: 0.100000001
         Shaft Radius: 0.0199999996
         Value: Arrow
-      Topic: /amiro1/odom
+      Topic: /amiro4/odom
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -161,8 +161,8 @@ Visualization Manager:
           Show Trail: false
           Value: true
       Name: "Robot: RobotModel"
-      Robot Description: amiro1/robot_description
-      TF Prefix: amiro1
+      Robot Description: amiro4/robot_description
+      TF Prefix: amiro4
       Update Interval: 0
       Value: true
       Visual Enabled: true
@@ -172,7 +172,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: "SLAM: Map"
-      Topic: /amiro1/map
+      Topic: /amiro4/map
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -241,7 +241,7 @@ Visualization Manager:
         Shaft Length: 1
         Shaft Radius: 0.0500000007
         Value: Arrow
-      Topic: /amiro1/ekf
+      Topic: /amiro4/ekf
       Unreliable: false
       Value: false
     - Alpha: 1
@@ -249,7 +249,7 @@ Visualization Manager:
       Color: 25; 255; 0
       Enabled: true
       Name: "NavStack: robot footprint"
-      Topic: amiro1/move_base/local_costmap/footprint
+      Topic: amiro4/move_base/local_costmap/footprint
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -264,7 +264,7 @@ Visualization Manager:
       Shaft Length: 0.5
       Shaft Radius: 0.0500000007
       Shape: Arrow
-      Topic: amiro1/move_base_simple/goal
+      Topic: amiro4/move_base_simple/goal
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -287,7 +287,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: amiro1/move_base/TrajectoryPlannerROS/global_plan
+      Topic: amiro4/move_base/TrajectoryPlannerROS/global_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -310,7 +310,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: amiro1/move_base/TrajectoryPlannerROS/local_plan
+      Topic: amiro4/move_base/TrajectoryPlannerROS/local_plan
       Unreliable: false
       Value: true
     - Alpha: 1
@@ -333,7 +333,7 @@ Visualization Manager:
       Radius: 0.0299999993
       Shaft Diameter: 0.100000001
       Shaft Length: 0.100000001
-      Topic: amiro1/move_base/NavfnROS/plan
+      Topic: amiro4/move_base/NavfnROS/plan
       Unreliable: false
       Value: true
     - Alpha: 0.699999988
@@ -342,7 +342,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: "NavStack: global_costmap"
-      Topic: amiro1/move_base/global_costmap/costmap
+      Topic: amiro4/move_base/global_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -352,7 +352,7 @@ Visualization Manager:
       Draw Behind: false
       Enabled: true
       Name: "NavStack: local_costmap"
-      Topic: amiro1/move_base/local_costmap/costmap
+      Topic: amiro4/move_base/local_costmap/costmap
       Unreliable: false
       Use Timestamp: false
       Value: true
@@ -360,7 +360,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: amiro1/base_link
+    Fixed Frame: amiro4/base_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -371,12 +371,12 @@ Visualization Manager:
     - Class: rviz/FocusCamera
     - Class: rviz/Measure
     - Class: rviz/SetInitialPose
-      Topic: amiro1/initialpose
+      Topic: amiro4/initialpose
     - Class: rviz/SetGoal
-      Topic: amiro1/move_base_simple/goal
+      Topic: amiro4/move_base_simple/goal
     - Class: rviz/PublishPoint
       Single click: true
-      Topic: amiro1/clicked_point
+      Topic: amiro4/clicked_point
   Value: true
   Views:
     Current:
