@@ -20,11 +20,10 @@
   <depend>ros_to_rsb_bridge</depend>
   <depend>rsb_to_ros_bridge</depend>
   <depend>frontier_exploration</depend>
-  <depend>hector_slam</depend>
-  <depend>octomap_mapping</depend>
-  <depend>octomap_ros</depend>
-  <depend>slam_gmapping</depend>
-  <depend>turtlebot</depend>
+  <depend>hector_mapping</depend>
+  <depend>octomap_server</depend>
+  <depend>gmapping</depend>
+  <depend>turtlebot_teleop/</depend>
   <depend>move_base</depend>
   <export>
 
