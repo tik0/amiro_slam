@@ -2,6 +2,8 @@
 
   <!-- Robot namespace -->
   <arg name="ns" default="amiro4"/>
+
+  <node pkg="rosbag" type="play" name="player" output="screen" args="--pause --clock $(find amiro_slam)/bags/2018-06-14-20-51-51_QUT_Lab-Tour.bag"/>
   
   <!-- We do not simulate -->
   <param name="use_sim_time" value="false"/>
@@ -10,13 +12,13 @@
   <include file="$(find amiro_slam)/launch/configure.launch" clear_params="false">
     <arg name="ns" value="$(arg ns)" />
     <arg name="use_gazebo" value="false" />
-    <arg name="keyboard_controller" value="true" />
+    <arg name="keyboard_controller" value="false" />
     <arg name="nav_stack" value="false" />
+    <arg name="xbox_controller" value="false" />
+    <arg name="frontier_exploration" value="false" />
     <arg name="robot_localization" value="true" />
-    <arg name="rostimenow" value="true" />
-    <arg name="use_bridges" value="true" />
+    <arg name="rostimenow" value="false" />
   </include>
 
-  <node pkg="tf" type="static_transform_publisher" name="amiro_odom_baselink" args="0 0 0 0 0 0 $(arg ns)/odom $(arg ns)/base_link 100"/>
-
 </launch>
+

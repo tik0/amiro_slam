@@ -30,6 +30,9 @@
 
   <!-- AMiRo runs in Gazebo -->
   <arg name="use_gazebo" default="false"/>
+
+  <!-- AMiRo runs in real life, so we need the bridges -->
+  <arg name="use_bridges" default="false"/>
   
   <!-- Navigation -->
   <include file="$(find amiro_slam)/launch/navigation.launch" ns="$(arg ns)">
@@ -41,7 +44,7 @@
   </include>
  
   <!-- Bridges for using the real AMiRo -->
-  <include file="$(find amiro_slam)/launch/bridges.launch" ns="$(arg ns)" unless="$(arg use_gazebo)">
+  <include file="$(find amiro_slam)/launch/bridges.launch" ns="$(arg ns)" if="$(arg use_bridges)">
     <arg name="laserscan_sick" value="$(arg laserscan_sick)"/>
     <arg name="laserscan_hokuyo" value="$(arg laserscan_hokuyo)"/>
     <arg name="use_rsb_time" value="$(arg use_rsb_time)"/>
@@ -73,6 +76,8 @@
   </group>
   
   <!-- Viz -->  
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find amiro_slam)/rviz/config.rviz" respawn="true"/>
+  <arg name="rviz_file" default="$(find amiro_slam)/rviz/config.rviz"/>
+  <arg name="use_rviz" default="true"/>
+  <node pkg="rviz" type="rviz" name="$(anon rviz)" args="-d $(arg rviz_file)" output="screen" if="$(arg use_rviz)" respawn="true"/>
 
 </launch>
