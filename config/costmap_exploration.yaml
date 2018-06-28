@@ -14,3 +14,4 @@ explore_boundary:
   frontier_travel_point: middle
   #set to false for gmapping, true if re-exploring a known area
   explore_clear_space: false
+

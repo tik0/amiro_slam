@@ -7,7 +7,7 @@
 
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen">
 
-    <param name="controller_frequency" value="15.0"/>
+    <!--<param name="controller_frequency" value="15.0"/>-->
     <param name="base_global_planner" value="$(arg base_global_planner)"/>
     <param name="base_local_planner" value="$(arg base_local_planner)"/>
     <rosparam file="$(find amiro_slam)/config/planner.yaml" command="load"/>
