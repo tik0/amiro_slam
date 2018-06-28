@@ -22,7 +22,7 @@
 
     <!-- local costmap, needs size -->
     <rosparam file="$(find amiro_slam)/config/local_costmap_params.yaml" command="load" ns="local_costmap"/>
-    <rosparam ns="local_costmap" param="global_frame" subst_value="True">$(arg ns)/odom</rosparam>
+    <rosparam ns="local_costmap" param="global_frame" subst_value="True">map</rosparam>
     <param name="local_costmap/width" value="10.0"/>
     <param name="local_costmap/height" value="10.0"/>
 

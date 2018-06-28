@@ -10,9 +10,9 @@
   <include file="$(find amiro_slam)/launch/configure.launch" clear_params="false">
     <arg name="ns" value="$(arg ns)" />
     <arg name="use_gazebo" value="false" />
-    <arg name="keyboard_controller" value="true" />
-    <arg name="nav_stack" value="false" />
-    <arg name="robot_localization" value="true" />
+    <arg name="keyboard_controller" value="false" />
+    <arg name="nav_stack" value="true" />
+    <arg name="robot_localization" value="false" />
     <arg name="rostimenow" value="true" />
     <arg name="use_bridges" value="true" />
   </include>
