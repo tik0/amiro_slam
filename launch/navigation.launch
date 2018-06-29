@@ -27,9 +27,9 @@
       <remap from="/clicked_point" to="/$(arg ns)/clicked_point"/>
     </node>
     <node pkg="frontier_exploration" type="explore_server" name="explore_server" output="screen">
-      <param name="frequency" value="0.0"/>
+      <param name="frequency" value="2.0"/>
       <!-- Should be less than sensor range -->
-      <param name="goal_aliasing" value="1.5"/>
+      <param name="goal_aliasing" value="1.0"/>
       <rosparam file="$(find amiro_slam)/config/costmap_common_params.yaml" command="load" ns="explore_costmap"/>
       <rosparam ns="explore_costmap" param="robot_base_frame" subst_value="True">$(arg ns)/base_link</rosparam>
       <rosparam ns="explore_costmap" param="obstacles_laser/laser" subst_value="True">{data_type: LaserScan, topic: laser, marking: true, clearing: true, inf_is_valid: true}</rosparam>
